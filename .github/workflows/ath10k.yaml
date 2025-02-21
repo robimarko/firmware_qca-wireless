@@ -1,0 +1,21 @@
+name: BDF info
+on: push
+
+jobs:
+  print_bdf_info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+
+      - name: wget
+        uses: wei/wget@v1
+        with:
+          args: -O ath10k-bdencoder https://raw.githubusercontent.com/qca/qca-swiss-army-knife/refs/heads/master/tools/scripts/ath10k/ath10k-bdencoder
+
+      - name: BDF print
+        run: |
+          python ath10k-bdencoder -i board-8dev_habanero.qca4019
